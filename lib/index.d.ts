@@ -28,6 +28,7 @@ export interface ReactEchartsPropsTypes {
   className?: string;
   theme?: string | null | ObjectMap;
   onChartReady?: Func;
+  onChartResize?: Func;
   showLoading?: boolean;
   loadingOption?: ObjectMap;
   onEvents?: EventMap;

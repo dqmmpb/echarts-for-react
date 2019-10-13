@@ -49,6 +49,8 @@ export default class EchartsReactCore extends Component {
     if (!isEqual(prevProps.style, this.props.style) || !isEqual(prevProps.className, this.props.className)) {
       try {
         echartObj.resize();
+        // on chart resize
+        if (typeof this.props.onChartResize === 'function') this.props.onChartResize(echartObj);
       } catch (e) {
         console.warn(e);
       }
@@ -78,7 +80,7 @@ export default class EchartsReactCore extends Component {
   };
 
   rerender = () => {
-    const { onEvents, onChartReady } = this.props;
+    const { onEvents, onChartReady, onChartResize } = this.props;
 
     const echartObj = this.renderEchartDom();
     this.bindEvents(echartObj, onEvents || {});
@@ -90,6 +92,8 @@ export default class EchartsReactCore extends Component {
       bind(this.echartsElement, () => {
         try {
           echartObj.resize();
+          // on chart resize
+          if (typeof onChartResize === 'function') this.props.onChartResize(echartObj);
         } catch (e) {
           console.warn(e);
         }
@@ -160,6 +164,7 @@ EchartsReactCore.propTypes = {
     PropTypes.object
   ]),
   onChartReady: PropTypes.func,
+  onChartResize: PropTypes.func,
   showLoading: PropTypes.bool,
   loadingOption: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onEvents: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -186,6 +191,7 @@ EchartsReactCore.defaultProps = {
   className: '',
   theme: null,
   onChartReady: () => {},
+  onChartResize: () => {},
   showLoading: false,
   loadingOption: null,
   onEvents: {},
